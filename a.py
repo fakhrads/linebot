@@ -11,19 +11,31 @@ from urllib import parse
 
 
 botStart = time.time()
-#fakhri = Linefakhri()
-fakhri = LINE('ExN1Gog2QDBzNyMNKla0.V+uWm8q8TMmc3J2Dq76caa.DdfY2A/7f2SR47VB+MazUxm2TJxmS7ewEsdvfZIf6ak=')
-fakhri.log("Auth Token : " + str(fakhri.authToken))
 
-caca = LINE('ExaPioJAi0jnK8pQxhR5./Cij/OBfqRswTiGlIKtnLq.m66vdyGKXz+IJFfnhAVDUbAKs0JaNWFFdwlsDlx7beY=')
-caca.log("Auth Token : " + str(caca.authToken))
-
-nisa = LINE('Exb2dc4zYAYDZlPAdKw5.gT9aKpJcqb3hy5AnxI5znq.XX9tJl/Fn+3VHOtOjJmKZAn0Iwnmx2PmMOi12YnsxZE=')
-nisa.log("Auth Token : " + str(nisa.authToken))
-
-days = LINE('ExmtB5kckpYWMzSOtlze.hoSdtRJc7Bj0Crf4jYRyFG.VLfOTO1AqgTCuVzAaaoNe6XvBwYDCUF7MqynELKti5M=')
-nisa.log("Auth Token : " + str(nisa.authToken))
-
+try:
+	with open("token1.txt", "r") as tokena:
+		authTokena = tokena.read().replace("\n","")
+		fakhri = LINE(authTokena)
+except Exception as error:
+	print(error)
+try:
+    with open("token2.txt", "r") as tokenbb:
+        authTokenb = tokenbb.read().replace("\n","")
+        caca = LINE(authTokenb)
+except Exception as error:
+	print(error)
+try:
+    with open("token3.txt", "r") as tokenc:
+        authTokenc = tokenc.read().replace("\n","")
+        nisa = LINE(authTokenc)
+except Exception as error:
+	print(error)
+try:
+    with open("token4.txt", "r") as tokend:
+        authTokend = tokend.read().replace("\n","")
+        days = LINE(authTokend)
+except Exception as error:
+	print(error)
 
 fakhriProfile = fakhri.getProfile()
 fakhriSettings = fakhri.getSettings()
@@ -563,14 +575,24 @@ def fakhriBot(op):
                                     settings["protect"] = False
                                     fakhri.sendMessage(to,'Proteksi grup dimatikan!')
                                 #------------------------[PROTECT]------------------------------
-                                elif cmd == 'balasmention on':
+                                elif cmd == 'respon on':
                                   if msg._from in creator:
                                     settings["tag"] = True
                                     fakhri.sendMessage(to,'Balas mention dinyalakan!')
-                                elif cmd == 'balasmention off':
+                                elif cmd == 'respon off':
                                   if msg._from in creator:
                                     settings["tag"] = False
                                     fakhri.sendMessage(to,'Balas mention dimatikan!')
+                                #---------------------------------------------------------------
+                                #------------------------[AUTOREAD]------------------------------
+                            elif cmd == 'autoread on':
+                                  if msg._from in creator:
+                                    settings["autoRead"] = True
+                                    fakhri.sendMessage(to,'Auto read dinyalakan!')
+                                elif cmd == 'autoread off':
+                                  if msg._from in creator:
+                                    settings["autoRead"] = False
+                                    fakhri.sendMessage(to,'Auto read dimatikan!')
                                 #---------------------------------------------------------------
                                 elif cmd == 'protectqr on':
                                   if msg._from in admin:
