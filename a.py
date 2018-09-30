@@ -585,7 +585,7 @@ def fakhriBot(op):
                                     fakhri.sendMessage(to,'Balas mention dimatikan!')
                                 #---------------------------------------------------------------
                                 #------------------------[AUTOREAD]------------------------------
-                            elif cmd == 'autoread on':
+                                elif cmd == 'autoread on':
                                   if msg._from in creator:
                                     settings["autoRead"] = True
                                     fakhri.sendMessage(to,'Auto read dinyalakan!')
