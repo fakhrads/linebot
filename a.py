@@ -1161,8 +1161,9 @@ def fakhriBot(op):
                                 zx2.append(zx)
                                 zxc += pesan2
                                 text = xpesan + zxc + ret_ + ""
-                                fakhri.sendMessage(at, text, contentMetadata={'MENTION':str('{"MENTIONEES":'+json.dumps(zx2).replace(' ','')+'}')}, contentType=0)
-                                fakhri.sendImage(at, msg_dict[msg_id]["data"])
+                                if settings["unsendMessage"] == True:
+                                  fakhri.sendMessage(at, text, contentMetadata={'MENTION':str('{"MENTIONEES":'+json.dumps(zx2).replace(' ','')+'}')}, contentType=0)
+                                  fakhri.sendImage(at, msg_dict[msg_id]["data"])
                            else:
                                 ginfo = fakhri.getGroup(at)
                                 Aditmadzs = fakhri.getContact(msg_dict[msg_id]["from"])
@@ -1170,7 +1171,8 @@ def fakhriBot(op):
                                 ret_ += "• Pengirim : {}".format(str(Aditmadzs.displayName))
                                 ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict[msg_id]["createdTime"])))
                                 ret_ += "\n• Pesannya : {}".format(str(msg_dict[msg_id]["text"]))
-                                fakhri.sendMessage(at, str(ret_))
+                                if settings["unsendMessage"] == True:
+                                  fakhri.sendMessage(at, str(ret_))
                         del msg_dict[msg_id]
                 except Exception as e:
                     print(e)
@@ -1189,8 +1191,9 @@ def fakhriBot(op):
                                 ret_ += "\n• Nama Grup : {}".format(str(ginfo.name))
                                 ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict1[msg_id]["createdTime"])))
                                 ret_ += "{}".format(str(msg_dict1[msg_id]["text"]))
-                                fakhri.sendMessage(at, str(ret_))
-                                fakhri.sendImage(at, msg_dict1[msg_id]["data"])
+                                if settings["unsendMessage"] == True:
+                                  fakhri.sendMessage(at, str(ret_))
+                                  fakhri.sendImage(at, msg_dict1[msg_id]["data"])
                         del msg_dict1[msg_id]
                 except Exception as e:
                     print(e)
