@@ -1095,7 +1095,8 @@ def fakhriBot(op):
                             if settings["autoRead"] == True:
                                 fakhri.sendChatChecked(to, msg_id)
                             if fakhriMID in str(msg.contentMetadata) and 'MENTION' in str(msg.contentMetadata):
-                              sendMention(receiver,"Ada yang bisa saya bantu @!,",[sender])
+								if settings["tag"] == True:
+                                  sendMention(receiver,"Ada yang bisa saya bantu @!,",[sender])
                         if text is None: return
                         if "/ti/g/" in msg.text.lower():
                         	if settings["join"] == True:
@@ -1140,18 +1141,16 @@ def fakhriBot(op):
             if op.type == 65:
                 print("[65] UNSEND MESSAGE")
                 try:
-                    at = op.param1
+					at = op.param1
                     msg_id = op.param2
                     if msg_id in msg_dict:
                         if msg_dict[msg_id]["from"]:
                            if msg_dict[msg_id]["text"] == 'Gambarnya dibawah':
-                                ginfo = fakhri.getGroup(at)
                                 Aditmadzs = fakhri.getContact(msg_dict[msg_id]["from"])
                                 zx = ""
                                 zxc = ""
                                 zx2 = []
                                 xpesan =  "「 Gambar Dihapus 」\n• Pengirim : "
-                                ret_ = "• Nama Grup : {}".format(str(ginfo.name))
                                 ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict[msg_id]["createdTime"])))
                                 ry = str(Aditmadzs.displayName)
                                 pesan = ''
@@ -1169,7 +1168,6 @@ def fakhriBot(op):
                                 Aditmadzs = fakhri.getContact(msg_dict[msg_id]["from"])
                                 ret_ =  "「 Pesan Dihapus 」\n"
                                 ret_ += "• Pengirim : {}".format(str(Aditmadzs.displayName))
-                                ret_ += "\n• Nama Grup : {}".format(str(ginfo.name))
                                 ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict[msg_id]["createdTime"])))
                                 ret_ += "\n• Pesannya : {}".format(str(msg_dict[msg_id]["text"]))
                                 fakhri.sendMessage(at, str(ret_))
