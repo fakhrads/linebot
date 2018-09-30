@@ -1095,8 +1095,8 @@ def fakhriBot(op):
                             if settings["autoRead"] == True:
                                 fakhri.sendChatChecked(to, msg_id)
                             if fakhriMID in str(msg.contentMetadata) and 'MENTION' in str(msg.contentMetadata):
-								if settings["tag"] == True:
-                                  sendMention(receiver,"Ada yang bisa saya bantu @!,",[sender])
+							  if settings["tag"] == True:
+                                sendMention(receiver,"Ada yang bisa saya bantu @!,",[sender])
                         if text is None: return
                         if "/ti/g/" in msg.text.lower():
                         	if settings["join"] == True:
