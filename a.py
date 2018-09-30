@@ -58,33 +58,30 @@ try:
         unsend = json.loads(f.read())
 except Exception as e:
     print(str(e))
-helpsider="""╭──「 Menu Message 」
-│ Help
-│ Help protect
-│ Help group
-│ Restart
-├──「 INFO 」
-│ Creator: fakhrads
-╰──────────"""
-helpprotect="""╭──「 Menu Protect 」
-│ Protect「On/Off」
-│ ProtectQR 「On/Off」
-│ TarikPesan 「On/Off」
-│ BalasMention 「On/Off」
-│ Gurl
-│ CloseURL/OpenURL
-│ Ban
-│ Clear
-│ ClearBan
-│ Status
-╰──────────"""
-helpgroup="""╭──「 Menu Selfbot 」
-│ Spict
-│ Scover
-│ Svideopict
-│ Gantippgrup
-│ Set/Cek
-╰──────────"""
+helpsider="""「 Menu Message 」
+• Help
+• Help protect
+• Help group
+• Restart"""
+helpprotect="""「 Menu Protect 」
+• Protect「On/Off」
+• ProtectQR 「On/Off」
+• TarikPesan 「On/Off」
+• BalasMention 「On/Off」
+• Gurl
+• CloseURL/OpenURL
+• Ban
+• Clear
+• ClearBan
+• Status"""
+helpgroup="""「 Menu Selfbot 」
+• Spict
+• Scover
+• Svideopict
+• Gantippgrup
+• Set/Cek
+• Iginfo
+• Whatis"""
 def backupData():
     try:
         backup = settings
@@ -596,16 +593,15 @@ def fakhriBot(op):
                                 elif cmd == "status":
                                   if msg._from in admin:
                                     try:
-                                        ret_ = "╭──「 STATUS」"
-                                        if settings["protect"] == True: ret_ += "\n├[ ON ] Proteksi"
-                                        else: ret_ += "\n├[ OFF ] Proteksi"
-                                        if settings["qrlink"] == True: ret_ += "\n├[ ON ] Proteksi QR"
-                                        else: ret_ += "\n├[ OFF ] Proteksi QR"
-                                        if settings["unsendMessage"] == True: ret_ += "\n├[ ON ] Tarik Pesan"
-                                        else: ret_ += "\n├[ OFF ] Tarik Pesan"
-                                        if settings["tag"] == True: ret_ += "\n├[ ON ] Balas Mention"
-                                        else: ret_ += "\n├[ OFF ] Balas Mention"
-                                        ret_ += "\n╰──「 SETTINGS 」"
+                                        ret_ = "「 PENGATURAN」"
+                                        if settings["protect"] == True: ret_ += "\n• [ ON ] Proteksi"
+                                        else: ret_ += "\n• [ OFF ] Proteksi"
+                                        if settings["qrlink"] == True: ret_ += "\n• [ ON ] Proteksi QR"
+                                        else: ret_ += "\n• [ OFF ] Proteksi QR"
+                                        if settings["unsendMessage"] == True: ret_ += "\n• [ ON ] Tarik Pesan"
+                                        else: ret_ += "\n• [ OFF ] Tarik Pesan"
+                                        if settings["tag"] == True: ret_ += "\n• [ ON ] Balas Mention"
+                                        else: ret_ += "\n• [ OFF ] Balas Mention"
                                         fakhri.sendMessage(to, str(ret_))
                                     except Exception as e:
                                         fakhri.sendMessage(to, str(e))
@@ -627,12 +623,12 @@ def fakhriBot(op):
                                     fakhri.sendMessage(to, "Berhasil menonaktifkan setkey")
                                 elif cmd == 'banlist':
                                     if settings["blacklist"] == {}:
-                                        fakhri.sendMessage(to,"╭──「 BLACKLIST」\n├[NONE]\n╰──「 USERS」")
+                                        fakhri.sendMessage(to,"Tidak ada user di ban")
                                     else:
                                         mc = ""
                                         for mi_d in settings["blacklist"]:
-                                            mc += "├[" + fakhri.getContact(mi_d).displayName + "]\n"
-                                        fakhri.sendMessage(to,"╭──「 BLACKLIST」\n"+mc+"╰──「 USERS」")
+                                            mc += "• [" + fakhri.getContact(mi_d).displayName + "]\n"
+                                        fakhri.sendMessage(to,"「 BLACKLIST」\n"+mc+"「 USERS」")
 
                                 elif cmd.startswith("mid "):
                                   if msg._from in admin:
@@ -911,16 +907,16 @@ def fakhriBot(op):
                                         tz = pytz.timezone("Asia/Jakarta")
                                         timeNow = datetime.now(tz=tz)
                                         if data["status"] == "success":
-                                            ret_ = "╭──「 Result Cuaca 」"
-                                            ret_ += "\n├──Kondisi cuaca : " + data['respon']['cuaca'].replace("Kondisi cuaca ","")
-                                            ret_ += "\n├── Lokasi : " + data['respon']['tempat'].replace("Temperatur di kota ","")
-                                            ret_ += "\n├── Suhu : " + data['respon']['suhu'].replace("Suhu : ","") + "°C"
-                                            ret_ += "\n├── Kelembaban : " + data['respon']['kelembapan'].replace("Kelembaban : ","") + "%"
-                                            ret_ += "\n├── Tekanan udara : " + data['respon']['udara'].replace("Tekanan udara : ","") + "HPa"
-                                            ret_ += "\n├── Kecepatan angin : " + data['respon']['angin'].replace("Kecepatan angin : ","") + "m/s"
-                                            ret_ += "\n├──[ Time Status ]"
-                                            ret_ += "\n├── Tanggal : " + datetime.strftime(timeNow,'%Y-%m-%d')
-                                            ret_ += "\n├── Jam : " + datetime.strftime(timeNow,'%H:%M:%S') + " WIB"
+                                            ret_ = "「 Result Cuaca 」"
+                                            ret_ += "\n• Kondisi cuaca : " + data['respon']['cuaca'].replace("Kondisi cuaca ","")
+                                            ret_ += "\n• Lokasi : " + data['respon']['tempat'].replace("Temperatur di kota ","")
+                                            ret_ += "\n• Suhu : " + data['respon']['suhu'].replace("Suhu : ","") + "°C"
+                                            ret_ += "\n• Kelembaban : " + data['respon']['kelembapan'].replace("Kelembaban : ","") + "%"
+                                            ret_ += "\n• Tekanan udara : " + data['respon']['udara'].replace("Tekanan udara : ","") + "HPa"
+                                            ret_ += "\n• Kecepatan angin : " + data['respon']['angin'].replace("Kecepatan angin : ","") + "m/s"
+                                            ret_ += "\n[ Time Status ]"
+                                            ret_ += "\n• Tanggal : " + datetime.strftime(timeNow,'%Y-%m-%d')
+                                            ret_ += "\n• Jam : " + datetime.strftime(timeNow,'%H:%M:%S') + " WIB"
                                             ret_ += "\n╰──「 Creator : fakhrads 」"
                                             fakhri.sendMessage(to, str(ret_))
                                     except Exception as error:
@@ -935,8 +931,8 @@ def fakhriBot(op):
                                         if data[0] != "" and data[1] != "" and data[2] != "":
                                             link = "https://www.google.co.id/maps/@{},{},15z".format(str(data[1]), str(data[2]))
                                             ret_ = "[ Location Status ]"
-                                            ret_ += "\nLocation : " + data[0]
-                                            ret_ += "\nGoogle Maps : " + link
+                                            ret_ += "\n• Location : " + data[0]
+                                            ret_ += "\n• Google Maps : " + link
                                             ret_ += "\n[ Success ]"
                                             fakhri.sendMessage(to, str(ret_))
                                     except Exception as error:
@@ -950,13 +946,13 @@ def fakhriBot(op):
                                         data = json.loads(data)
                                         if data != []:
                                             ret_ = "[ Profile Instagram ]"
-                                            ret_ += "\nNama : {}".format(str(data["info"]["full_name"]))
-                                            ret_ += "\nUsername : {}".format(str(data["info"]["username"]))
-                                            ret_ += "\nBio : {}".format(str(data["info"]["bio"]))
-                                            ret_ += "\nPengikut : {}".format(str(data["count"]["followers"]))
-                                            ret_ += "\nDiikuti : {}".format(str(data["count"]["following"]))
-                                            ret_ += "\n Total Post : {}".format(str(data["count"]["post"]))
-                                            ret_ += "\n[ https://www.instagram.com/{} ]".format(search)
+                                            ret_ += "\n• Nama : {}".format(str(data["info"]["full_name"]))
+                                            ret_ += "\n• Username : {}".format(str(data["info"]["username"]))
+                                            ret_ += "\n• Bio : {}".format(str(data["info"]["bio"]))
+                                            ret_ += "\n• Pengikut : {}".format(str(data["count"]["followers"]))
+                                            ret_ += "\n• Diikuti : {}".format(str(data["count"]["following"]))
+                                            ret_ += "\n• Total Post : {}".format(str(data["count"]["post"]))
+                                            ret_ += "\n• https://www.instagram.com/{} ".format(search)
                                             path = data["info"]["profile_pict"]
                                             fakhri.sendImageWithURL(to, str(path))
                                             fakhri.sendMessage(to, str(ret_))
@@ -971,10 +967,10 @@ def fakhriBot(op):
                                         data = json.loads(data)
                                         if data["status"] == "OK":
                                             ret_ = "「 Knowledge 」"
-                                            ret_ += "\n Nama : {}".format(str(data["result"]["name"]))
-                                            ret_ += "\n Deskripsi : {}".format(str(data["result"]["description"]))
-                                            ret_ += "\n Artikel : {}".format(str(data["result"]["article"]))
-                                            ret_ += "\n Url : {}".format(str(data["result"]["url"]))
+                                            ret_ += "\n• Nama : {}".format(str(data["result"]["name"]))
+                                            ret_ += "\n• Deskripsi : {}".format(str(data["result"]["description"]))
+                                            ret_ += "\n• Artikel : {}".format(str(data["result"]["article"]))
+                                            ret_ += "\n• Url : {}".format(str(data["result"]["url"]))
                                             path = data["result"]["img"]
                                             fakhri.sendImageWithURL(to, path)
                                             fakhri.sendMessage(to, str(ret_))
@@ -1017,11 +1013,11 @@ def fakhriBot(op):
                                             return fakhri.sendMessage(to, "Tidak Ada Sider")
                                         else:
                                             no = 0
-                                            result = "╭──「 Menu Message 」"
+                                            result = "「 Menu Message 」"
                                             for dataRead in read["readMember"][to]:
                                                no += 1
-                                               result += "\n├── 「{}. @!」".format(str(no))
-                                            result += "\n╰──「 Total {} Sider 」".format(str(len(read["readMember"][to])))
+                                               result += "\n• 「{}. @!」".format(str(no))
+                                            result += "\n「 Total {} Sider 」".format(str(len(read["readMember"][to])))
                                             fakhri.sendMention(to, result, read["readMember"][to])
                                             read['readMember'][to] = []
                                 elif msg.contentType == 1:
@@ -1076,17 +1072,8 @@ def fakhriBot(op):
                         if msg.contentType == 0:
                             if settings["autoRead"] == True:
                                 fakhri.sendChatChecked(to, msg_id)
-                            if sender not in fakhriMID:
-                              if msg.toType != 0 and msg.toType == 2:
-                                if 'MENTION' in msg.contentMetadata.keys()!= None:
-                                    names = re.findall(r'@(\w+)', text)
-                                    mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                                    mentionees = mention['MENTIONEES']
-                                    for mention in mentionees:
-                                        if fakhriMID in mention["M"]:
-                                        	if settings["tag"] == True:
-                                        		fakhri.sendMention(sender, "Ya @!, ada yang bisa saya bantu?", [sender])
-                                        	break
+                            if fakhriMID in str(msg.contentMetadata) and 'MENTION' in str(msg.contentMetadata):
+                              sendMention(receiver,"Ada yang bisa saya bantu @!,",[sender])
                         if text is None: return
                         if "/ti/g/" in msg.text.lower():
                         	if settings["join"] == True:
