@@ -51,9 +51,7 @@ bots = [Amid,Bmid,Cmid,Dmid,"ubff53033c43cb66302de3d9d43be8200","u71099a573338cc
 
 settingsOpen = codecs.open("read.json","r","utf-8")
 settings = json.load(settingsOpen)
-unsendOpen = codecs.open("unsend.json","r","utf-8")
-unsends = json.load(unsendOpen)
-readOpen = codecs.open("siderpublik.json","r","utf-8")
+readOpen = codecs.open("sider.json","r","utf-8")
 read = json.load(readOpen)
 try:
     with open("unsend.json","r",encoding="utf_8_sig") as f:
@@ -91,9 +89,6 @@ def backupData():
     try:
         backup = settings
         f = codecs.open('read.json','w','utf-8')
-        json.dump(backup, f, sort_keys=True, indent=4, ensure_ascii=False)
-        backup = unsend
-        f = codecs.open('unsend.json','w','utf-8')
         json.dump(backup, f, sort_keys=True, indent=4, ensure_ascii=False)
         backup = read
         f = codecs.open('siderpublik.json','w','utf-8')
