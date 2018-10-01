@@ -3,5 +3,10 @@ requests==2.18.4
 rsa==3.4.2
 PyQRCode==1.2.1
 humanfriendly
-html5lib
-bs4
+html5lib==1.11.0
+bs4==4.6.0
+pafy
+gTTS
+googletrans
+urllib3
+pytz

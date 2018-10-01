@@ -51,17 +51,17 @@ Amid = fakhri.profile.mid
 Bmid = caca.profile.mid
 Cmid = nisa.profile.mid
 Dmid = days.profile.mid
-print(Amid)
-print(Bmid)
-print(Cmid)
-print(Dmid)
+print("===============================================================")
+print("LOGIN SUCCESSFULLY")
+print("VERSION : 3.0.3")
+print("===============================================================")
 
 zero = [caca,nisa,days]
 creator = "ubff53033c43cb66302de3d9d43be8200"
 admin = ["ubff53033c43cb66302de3d9d43be8200","u71099a573338cc0acd7ac936959b9cde"]
 bots = [Amid,Bmid,Cmid,Dmid,"ubff53033c43cb66302de3d9d43be8200","u71099a573338cc0acd7ac936959b9cde"]
 
-settingsOpen = codecs.open("read.json","r","utf-8")
+settingsOpen = codecs.open("pengaturan.json","r","utf-8")
 settings = json.load(settingsOpen)
 readOpen = codecs.open("sider.json","r","utf-8")
 read = json.load(readOpen)
@@ -434,6 +434,67 @@ def fakhriBot(op):
                                     	}
                                     }
                                     fakhri.postJungelpang(to, data)
+			                    elif cmd == "mimic on":
+                                    if settings["mimic"]["status"] == True:
+                                        fakhri.sendMessage(to, "Reply message telah aktif")
+                                    else:
+                                        settings["mimic"]["status"] = True
+                                        fakhri.sendMessage(to, "Berhasil mengaktifkan reply message")
+                                elif cmd == "mimic off":
+                                    if settings["mimic"]["status"] == False:
+                                        fakhri.sendMessage(to, "Reply message telah nonaktif")
+                                    else:
+                                        settings["mimic"]["status"] = False
+                                        fakhri.sendMessage(to, "Berhasil menonaktifkan reply message")
+                                elif cmd == "mimiclist":
+                                    if settings["mimic"]["target"] == {}:
+                                        fakhri.sendMessage(to, "Tidak Ada Target")
+                                    else:
+                                        no = 0
+                                        result = "╔══[ Mimic List ]"
+                                        target = []
+                                        for mid in settings["mimic"]["target"]:
+                                            target.append(mid)
+                                            no += 1
+                                            result += "\n╠ {}. @!".format(no)
+                                        result += "\n╚══[ Total {} Mimic ]".format(str(len(target)))
+                                        fakhri.sendMention(to, result, target)
+                                elif cmd.startswith("mimicadd "):
+                                    if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                        names = re.findall(r'@(\w+)', text)
+                                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                        mentionees = mention['MENTIONEES']
+                                        lists = []
+                                        for mention in mentionees:
+                                            if mention["M"] not in lists:
+                                                lists.append(mention["M"])
+                                        for ls in lists:
+                                            try:
+                                                if ls in settings["mimic"]["target"]:
+                                                    fakhri.sendMessage(to, "Target sudah ada dalam list")
+                                                else:
+                                                    settings["mimic"]["target"][ls] = True
+                                                    fakhri.sendMessage(to, "Berhasil menambahkan target")
+                                        	except:
+                                                fakhri.sendMessage(to, "Gagal menambahkan target")
+                                elif cmd.startswith("mimicdel "):
+                                    if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                        names = re.findall(r'@(\w+)', text)
+                                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                        mentionees = mention['MENTIONEES']
+                                        lists = []
+                                        for mention in mentionees:
+                                        	if mention["M"] not in lists:
+                                        		lists.append(mention["M"])
+                                        for ls in lists:
+                                        	try:
+                                        		if ls not in settings["mimic"]["target"]:
+                                        			fakhri.sendMessage(to, "Target sudah tida didalam list")
+                                        		else:
+                                        			del settings["mimic"]["target"][ls]
+                                        			fakhri.sendMessage(to, "Berhasil menghapus target")
+                                        	except:
+                                        		fakhri.sendMessage(to, "Gagal menghapus target")
                                 elif cmd == 'bot':
                                   if msg._from in admin:
                                     caca.sendMessage(to,'Ready!')
@@ -443,6 +504,7 @@ def fakhriBot(op):
                                   if msg._from in admin:
                                     caca.leaveGroup(to)
                                     nisa.leaveGroup(to)
+									days.leaveGroup(to)
                                 elif cmd == "qwerty":
                                   if msg._from in admin:
                                     fakhri.sendContact(to, "u1f41296217e740650e0448b96851a3e2',")
@@ -735,6 +797,14 @@ def fakhriBot(op):
                                                 channel = fakhri.getProfileCoverURL(ls)
                                                 path = str(channel)
                                                 fakhri.sendImageWithURL(to, str(path))
+                                elif cmd.startswith("setrespon: "):
+                                   sep = text.split(" ")
+                                   txt = text.replace(sep[0] + " ","")
+                                   try:
+                                       settings["autoResponMessage"] = txt
+                                       fakhri.sendMessage(to, "Berhasil mengubah pesan auto respon menjadi : 「{}」".format(txt))
+                                   except:
+                                       fakhri.sendMessage(to, "Gagal mengubah pesan auto respon")
                                 elif cmd == 'listmember':
                                   if msg._from in admin:
                                     if msg.toType == 2:
@@ -865,6 +935,32 @@ def fakhriBot(op):
                                                   fakhri.sendMessage(to,"ERROR : " + str(e))
                                       except Exception as e:
                                           fakhri.sendMessage(to,"ERROR : " + str(e))
+                                elif text.lower().startswith("music "):
+                                    try:
+                                        search = text.lower().replace("music ","")
+                                        r = requests.get("https://rest.farzain.com/api/joox.php?id={}&apikey=apikeymu".format(urllib.parse.quote(search)))
+                                        data = r.text
+                                        data = json.loads(data)
+                                        info = data["info"]
+                                        audio = data["audio"]
+                                        hasil = "[ Hasil Musik ]\n"
+                                        hasil += "\nPenyanyi : {}".format(str(info["penyanyi"]))
+                                        hasil += "\nJudul : {}".format(str(info["judul"]))
+                                        hasil += "\nAlbum : {}".format(str(info["album"]))
+                                        hasil += "\n\nLink : \n1. Image : {}".format(str(data["gambar"]))
+                                        hasil += "\n\nLink : \n2. MP3 : {}".format(str(audio["mp3"]))
+                                        hasil += "\n\nLink : \n3. M4A : {}".format(str(audio["m4a"]))
+                                        fakhri.sendImageWithURL(msg.to, str(data["gambar"]))
+                                        fakhri.sendMessage(msg.to, str(hasil))
+                                        fakhri.sendMessage(msg.to, "Downloading...")
+                                        fakhri.sendMessage(msg.to, " [ Result MP3 ] ")
+                                        fakhri.sendAudioWithURL(msg.to, str(audio["mp3"]))
+                                        fakhri.sendMessage(msg.to, " [ Result M4A ] ")
+                                        fakhri.sendVideoWithURL(msg.to, str(audio["m4a"]))
+                                        fakhri.sendMessage(msg.to, str(data["lirik"]))
+                                        fakhri.sendMessage(msg.to, "Success Download...")
+                                    except Exception as error:
+                                        fakhri.sendMessage(msg.to, " [ Result Error ]\n" + str(error))
                                 elif cmd == 'clearban':
                                   if settings["selfbot"] == True:
                                     if msg._from in admin:
@@ -1096,7 +1192,7 @@ def fakhriBot(op):
                                 fakhri.sendChatChecked(to, msg_id)
                             if fakhriMID in str(msg.contentMetadata) and 'MENTION' in str(msg.contentMetadata):
                               if settings["tag"] == True:
-                                sendMention(receiver,"Ada yang bisa saya bantu @!,",[sender])
+                                sendMention(receiver,"Ada perlu apa ? @!",[sender])
                         if text is None: return
                         if "/ti/g/" in msg.text.lower():
                         	if settings["join"] == True:
@@ -1184,11 +1280,9 @@ def fakhriBot(op):
                     msg_id = op.param2
                     if msg_id in msg_dict1:
                         if msg_dict1[msg_id]["from"]:
-                                ginfo = fakhri.getGroup(at)
                                 Aditmadzs = fakhri.getContact(msg_dict1[msg_id]["from"])
                                 ret_ =  "「 Sticker Dihapus 」\n"
                                 ret_ += "• Pengirim : {}".format(str(Aditmadzs.displayName))
-                                ret_ += "\n• Nama Grup : {}".format(str(ginfo.name))
                                 ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict1[msg_id]["createdTime"])))
                                 ret_ += "{}".format(str(msg_dict1[msg_id]["text"]))
                                 if settings["unsendMessage"] == True:

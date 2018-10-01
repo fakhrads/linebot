@@ -1,16 +1,12 @@
-## Requirement
+## What Is This?
 
-
+LINE BOT UnOfficial using linepy library,
 
 ## Installation
 
 Installation is simple. It can be installed from pip using the following command:
 ```sh
-$ pip install linepy
-```
-Or from the code:
-```sh
-$ python setup.py install
+$ pip install -r requirements.txt
 ```
 
 ## Usage

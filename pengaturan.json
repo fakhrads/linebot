@@ -14,6 +14,10 @@
     "group": {
         "c9c5128f87f4fad46d58da82c2daa8835": "c9c5128f87f4fad46d58da82c2daa8835"
     },
+    "mimic": {
+    "status": false,
+    "target": {}
+    },
     "keyCommand": "",
     "msg_dict": {},
     "protect": true,
@@ -24,5 +28,6 @@
     "wblacklist": false,
     "whitelist": {},
     "autoRead": true,
-    "selfbot": true
+    "selfbot": true,
+    "autoResponMessage": ""
 }
