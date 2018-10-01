@@ -434,67 +434,67 @@ def fakhriBot(op):
                                     	}
                                     }
                                     fakhri.postJungelpang(to, data)
-			                    elif cmd == "mimic on":
-                                    if settings["mimic"]["status"] == True:
-                                        fakhri.sendMessage(to, "Reply message telah aktif")
-                                    else:
-                                        settings["mimic"]["status"] = True
-                                        fakhri.sendMessage(to, "Berhasil mengaktifkan reply message")
+                                elif cmd == "mimic on":
+                                  if settings["mimic"]["status"] == True:
+                                      fakhri.sendMessage(to, "Reply message telah aktif")
+                                  else:
+                                      settings["mimic"]["status"] = True
+                                      fakhri.sendMessage(to, "Berhasil mengaktifkan reply message")
                                 elif cmd == "mimic off":
-                                    if settings["mimic"]["status"] == False:
-                                        fakhri.sendMessage(to, "Reply message telah nonaktif")
-                                    else:
-                                        settings["mimic"]["status"] = False
-                                        fakhri.sendMessage(to, "Berhasil menonaktifkan reply message")
+                                  if settings["mimic"]["status"] == False:
+                                      fakhri.sendMessage(to, "Reply message telah nonaktif")
+                                  else:
+                                      settings["mimic"]["status"] = False
+                                      fakhri.sendMessage(to, "Berhasil menonaktifkan reply message")
                                 elif cmd == "mimiclist":
-                                    if settings["mimic"]["target"] == {}:
-                                        fakhri.sendMessage(to, "Tidak Ada Target")
-                                    else:
-                                        no = 0
-                                        result = "╔══[ Mimic List ]"
-                                        target = []
-                                        for mid in settings["mimic"]["target"]:
-                                            target.append(mid)
-                                            no += 1
-                                            result += "\n╠ {}. @!".format(no)
-                                        result += "\n╚══[ Total {} Mimic ]".format(str(len(target)))
-                                        fakhri.sendMention(to, result, target)
+                                  if settings["mimic"]["target"] == {}:
+                                      fakhri.sendMessage(to, "Tidak Ada Target")
+                                  else:
+                                      no = 0
+                                      result = "╔══[ Mimic List ]"
+                                      target = []
+                                      for mid in settings["mimic"]["target"]:
+                                          target.append(mid)
+                                          no += 1
+                                          result += "\n╠ {}. @!".format(no)
+                                      result += "\n╚══[ Total {} Mimic ]".format(str(len(target)))
+                                      fakhri.sendMention(to, result, target)
                                 elif cmd.startswith("mimicadd "):
-                                    if 'MENTION' in msg.contentMetadata.keys()!= None:
-                                        names = re.findall(r'@(\w+)', text)
-                                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                                        mentionees = mention['MENTIONEES']
-                                        lists = []
-                                        for mention in mentionees:
-                                            if mention["M"] not in lists:
-                                                lists.append(mention["M"])
-                                        for ls in lists:
-                                            try:
-                                                if ls in settings["mimic"]["target"]:
-                                                    fakhri.sendMessage(to, "Target sudah ada dalam list")
-                                                else:
-                                                    settings["mimic"]["target"][ls] = True
-                                                    fakhri.sendMessage(to, "Berhasil menambahkan target")
-                                        	except:
-                                                fakhri.sendMessage(to, "Gagal menambahkan target")
+                                  if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                      names = re.findall(r'@(\w+)', text)
+                                      mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                      mentionees = mention['MENTIONEES']
+                                      lists = []
+                                      for mention in mentionees:
+                                          if mention["M"] not in lists:
+                                              lists.append(mention["M"])
+                                      for ls in lists:
+                                          try:
+                                              if ls in settings["mimic"]["target"]:
+                                                  fakhri.sendMessage(to, "Target sudah ada dalam list")
+                                              else:
+                                                  settings["mimic"]["target"][ls] = True
+                                                  fakhri.sendMessage(to, "Berhasil menambahkan target")
+                                          except:
+                                               fakhri.sendMessage(to, "Gagal menambahkan target")
                                 elif cmd.startswith("mimicdel "):
-                                    if 'MENTION' in msg.contentMetadata.keys()!= None:
-                                        names = re.findall(r'@(\w+)', text)
-                                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                                        mentionees = mention['MENTIONEES']
-                                        lists = []
-                                        for mention in mentionees:
-                                        	if mention["M"] not in lists:
-                                        		lists.append(mention["M"])
-                                        for ls in lists:
-                                        	try:
-                                        		if ls not in settings["mimic"]["target"]:
-                                        			fakhri.sendMessage(to, "Target sudah tida didalam list")
-                                        		else:
-                                        			del settings["mimic"]["target"][ls]
-                                        			fakhri.sendMessage(to, "Berhasil menghapus target")
-                                        	except:
-                                        		fakhri.sendMessage(to, "Gagal menghapus target")
+                                  if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                      names = re.findall(r'@(\w+)', text)
+                                      mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                      mentionees = mention['MENTIONEES']
+                                      lists = []
+                                      for mention in mentionees:
+                                      	if mention["M"] not in lists:
+                                      		lists.append(mention["M"])
+                                      for ls in lists:
+                                      	try:
+                                      		if ls not in settings["mimic"]["target"]:
+                                      			fakhri.sendMessage(to, "Target sudah tida didalam list")
+                                      		else:
+                                      			del settings["mimic"]["target"][ls]
+                                      			fakhri.sendMessage(to, "Berhasil menghapus target")
+                                      	except:
+                                      		fakhri.sendMessage(to, "Gagal menghapus target")
                                 elif cmd == 'bot':
                                   if msg._from in admin:
                                     caca.sendMessage(to,'Ready!')
@@ -504,7 +504,7 @@ def fakhriBot(op):
                                   if msg._from in admin:
                                     caca.leaveGroup(to)
                                     nisa.leaveGroup(to)
-									days.leaveGroup(to)
+                                    days.leaveGroup(to)
                                 elif cmd == "qwerty":
                                   if msg._from in admin:
                                     fakhri.sendContact(to, "u1f41296217e740650e0448b96851a3e2',")
