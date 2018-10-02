@@ -1,27 +1,26 @@
 {
+    "autoRead": true,
     "blacklist": {},
     "changeGroupPicture": [],
     "changePictureProfile": false,
     "changePictureProfileCaca": false,
     "changePictureProfileNisa": false,
-    "changePictureProfile": false,
     "dblacklist": false,
     "group": {
         "c9c5128f87f4fad46d58da82c2daa8835": "c9c5128f87f4fad46d58da82c2daa8835"
     },
+    "keyCommand": "",
     "mimic": {
         "status": false,
         "target": {}
     },
-    "keyCommand": "",
     "protect": true,
     "qrlink": false,
+    "responTag": "",
+    "selfbot": true,
     "setKey": false,
     "tag": false,
     "unsendMessage": false,
     "wblacklist": false,
-    "whitelist": {},
-    "autoRead": true,
-    "selfbot": true,
-    "responTag": ""
+    "whitelist": {}
 }

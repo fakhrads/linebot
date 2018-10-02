@@ -428,7 +428,10 @@ def fakhriBot(op):
                                 return
                             else:
                                 cmd = command(text)
-                                if cmd == 'masuk':
+								if cmd == 'me'
+								    fakhri.sendContact(to,fakhriMID)
+									fakhri.sendMessageMusic(to,"Gausah Sombong Anjay")
+							    elif cmd == 'masuk':
                                   if msg._from in admin:
                                     X = fakhri.getGroup(to)
                                     X.preventedJoinByTicket = False
