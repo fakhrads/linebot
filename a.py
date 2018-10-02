@@ -837,7 +837,7 @@ def fakhriBot(op):
                                    except:
                                        fakhri.sendMessage(to, "Gagal mengubah pesan auto respon")
                                 elif cmd == 'cek respon':
-                                    fakhri.sendMessage(to,settings["responTag"]):
+                                     fakhri.sendMessage(to,settings["responTag"])
                                 elif cmd == 'listmember':
                                   if msg._from in admin:
                                     if msg.toType == 2:
@@ -968,7 +968,7 @@ def fakhriBot(op):
                                                   fakhri.sendMessage(to,"ERROR : " + str(e))
                                       except Exception as e:
                                           fakhri.sendMessage(to,"ERROR : " + str(e))
-								elif text.lower().startswith("say "):
+                                elif text.lower().startswith("say "):
                                     try:
                                         search = text.lower().replace("say ","")
                                         r = requests.get("https://rest.farzain.com/api/tts.php?apikey=Aovsyfk9UmvCAag1w5rupglGb&id={}".format(urllib.parse.quote(search)))
