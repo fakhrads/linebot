@@ -1,22 +1,25 @@
 ## What Is This?
 
-LINE BOT UnOfficial using linepy library,
+LINE BOT UnOfficial using linepy library.
 
-## Installation
+This bot use 4 line accounts
 
-Installation is simple. It can be installed from pip using the following command:
+## How to install ?
+
 ```sh
-$ pip install -r requirements.txt
+$ sudo apt-get update
+$ sudo apt-get install python3 python3-pip git
+$ git clone https://github.com/fakhrads/linebot
+$ cd linebot
+$ pip3 install -r requirements.txt
 ```
 
-## Usage
+## How to run ?
 
-```python
->>> from linepy import *
->>> line = LINE('EMAIL', 'PASSWORD')
->>> line.log("Auth Token : " + str(line.authToken))
+```sh
+$ screen
+$ python3 a.py
 ```
 
-## Author
-Fadhiil Rachman / [@fadhiilrachman](https://www.instagram.com/fadhiilrachman)
-Fakhri Adi Saputra / [@fakhrads](https://www.instagram.com/fakhrads)
+## Sauce
+Thanks to Fadhiil Rachman for linepy libs

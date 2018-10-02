@@ -73,7 +73,7 @@ except Exception as e:
 helpsider="""「 Menu Message 」
 • Help
 • Help protect
-• Help group
+• Help selfbot
 • Restart"""
 helpprotect="""「 Menu Protect 」
 • Protect「On/Off」
@@ -89,15 +89,20 @@ helpprotect="""「 Menu Protect 」
 helpgroup="""「 Menu Selfbot 」
 • Spict
 • Scover
-• Svideopict
+• Svide
 • Gantippgrup
 • Set/Cek
 • Iginfo
-• Whatis"""
+• Whatis
+• Respon off/on
+• Mimic off/on
+• mimiclist
+• Mimicadd @mention
+• Mimicdel @mention"""
 def backupData():
     try:
         backup = settings
-        f = codecs.open('read.json','w','utf-8')
+        f = codecs.open('pengaturan.json','w','utf-8')
         json.dump(backup, f, sort_keys=True, indent=4, ensure_ascii=False)
         backup = read
         f = codecs.open('siderpublik.json','w','utf-8')
@@ -138,6 +143,32 @@ def delete_log():
             if "path" in msg_dict[data]:
                 fakhri.deleteFile(msg_dict[data]["path"])
             del msg_dict[data]
+
+def changeVideoAndPictureProfile(pict, vids):
+    try:
+        files = {'file': open(vids, 'rb')}
+        obs_params = client.genOBSParams({'oid': clientMid, 'ver': '2.0', 'type': 'video', 'cat': 'vp.mp4', 'name': 'Hello_World.mp4'})
+        data = {'params': obs_params}
+        r_vp = client.server.postContent('{}/talk/vp/upload.nhn'.format(str(client.server.LINE_OBS_DOMAIN)), data=data, files=files)
+        if r_vp.status_code != 201:
+            return "Failed update profile"
+        client.updateProfilePicture(pict, 'vp')
+        return "Success update profile"
+    except Exception as e:
+        raise Exception("Error change video and picture profile %s"%str(e))
+
+def changeVideoAndPictureProfile(pict, vids):
+    try:
+        files = {'file': open(vids, 'rb')}
+        obs_params = fakhri.genOBSParams({'oid': fakhriMID, 'ver': '2.0', 'type': 'video', 'cat': 'vp.mp4', 'name': 'Hello_World.mp4'})
+        data = {'params': obs_params}
+        r_vp = fakhri.server.postContent('{}/talk/vp/upload.nhn'.format(str(fakhri.server.LINE_OBS_DOMAIN)), data=data, files=files)
+        if r_vp.status_code != 201:
+            return "Failed update profile"
+        fakhri.updateProfilePicture(pict, 'vp')
+        return "Success update profile"
+    except Exception as e:
+        raise Exception("Error change video and picture profile %s"%str(e))
 
 def mentionMembers(to, mid):
     try:
@@ -609,7 +640,7 @@ def fakhriBot(op):
                                         else:
                                             gurl = fakhri.reissueGroupTicket(to)
                                             fakhri.sendMessage(to,"Link grup:\nline://ti/g/" + gurl)
-                                elif cmd == 'help group':
+                                elif cmd == 'help selfbot':
                                   if msg._from in admin:
                                     fakhri.sendMessage(to,helpgroup)
                                 elif cmd == 'help protect':
@@ -801,10 +832,12 @@ def fakhriBot(op):
                                    sep = text.split(" ")
                                    txt = text.replace(sep[0] + " ","")
                                    try:
-                                       settings["autoResponMessage"] = txt
+                                       settings["responTag"] = txt
                                        fakhri.sendMessage(to, "Berhasil mengubah pesan auto respon menjadi : 「{}」".format(txt))
                                    except:
                                        fakhri.sendMessage(to, "Gagal mengubah pesan auto respon")
+                                elif cmd == 'cek respon':
+                                    fakhri.sendMessage(to,settings["responTag"]):
                                 elif cmd == 'listmember':
                                   if msg._from in admin:
                                     if msg.toType == 2:
@@ -935,10 +968,19 @@ def fakhriBot(op):
                                                   fakhri.sendMessage(to,"ERROR : " + str(e))
                                       except Exception as e:
                                           fakhri.sendMessage(to,"ERROR : " + str(e))
-                                elif text.lower().startswith("music "):
+								elif text.lower().startswith("say "):
                                     try:
-                                        search = text.lower().replace("music ","")
-                                        r = requests.get("https://rest.farzain.com/api/joox.php?id={}&apikey=apikeymu".format(urllib.parse.quote(search)))
+                                        search = text.lower().replace("say ","")
+                                        r = requests.get("https://rest.farzain.com/api/tts.php?apikey=Aovsyfk9UmvCAag1w5rupglGb&id={}".format(urllib.parse.quote(search)))
+                                        data = r.text
+                                        data = json.loads(data)
+                                        fakhri.sendImageWithURL(msg.to, str(data["gambar"]))
+                                    except Exception as error:
+                                        fakhri.sendMessage(msg.to, " [ Result Error ]\n" + str(error))
+                                elif text.lower().startswith("musik "):
+                                    try:
+                                        search = text.lower().replace("musik ","")
+                                        r = requests.get("https://rest.farzain.com/api/joox.php?apikey=Aovsyfk9UmvCAag1w5rupglGb&id={}".format(urllib.parse.quote(search)))
                                         data = r.text
                                         data = json.loads(data)
                                         info = data["info"]
@@ -972,13 +1014,12 @@ def fakhriBot(op):
                                         midSelect = len(midMembers)//100
                                         for mentionMembers in range(midSelect+1):
                                             no = 0
-                                            ret_ = "╔══[ Mention Members ]"
                                             dataMid = []
                                             for dataMention in group.members[mentionMembers*100 : (mentionMembers+1)*100]:
                                                 dataMid.append(dataMention.mid)
                                                 no += 1
-                                                ret_ += "\n╠ {}. @!".format(str(no))
-                                                ret_ += "\n╚══[ Total {} Members]".format(str(len(dataMid)))
+                                                ret_ += "\n {}. @!".format(str(no))
+                                                ret_ += "\n[ Total {} Members]".format(str(len(dataMid)))
                                                 fakhri.sendMention(to, ret_, dataMid)
                                 elif cmd.startswith("sholat"):
                                     a = 'Peta Lokasi'
@@ -1131,7 +1172,7 @@ def fakhriBot(op):
                                             return fakhri.sendMessage(to, "Tidak Ada Sider")
                                         else:
                                             no = 0
-                                            result = "「 Menu Message 」"
+                                            result = "「 READER 」"
                                             for dataRead in read["readMember"][to]:
                                                no += 1
                                                result += "\n• 「{}. @!」".format(str(no))
@@ -1187,12 +1228,19 @@ def fakhriBot(op):
                             to = receiver
                         elif msg.toType == 2:
                             to = receiver
+                        if sender in settings["mimic"]["target"] and settings["mimic"]["status"] == True and settings["mimic"]["target"][sender] == True:
+                            if msg.contentType == 0:
+                               fakhri.sendMessage(to, text)
+                            elif msg.contentType == 1:
+                               path = fakhri.downloadObjectMsg(msg_id, saveAs="LineAPI/tmp/{}-mimic.bin".format(time.time()))
+                               fakhri.sendImage(to, path)
+                               fakhri.deleteFile(path)
                         if msg.contentType == 0:
                             if settings["autoRead"] == True:
                                 fakhri.sendChatChecked(to, msg_id)
                             if fakhriMID in str(msg.contentMetadata) and 'MENTION' in str(msg.contentMetadata):
                               if settings["tag"] == True:
-                                sendMention(receiver,"Ada perlu apa ? @!",[sender])
+                                sendMention(receiver,settings["responTag"],[sender])
                         if text is None: return
                         if "/ti/g/" in msg.text.lower():
                         	if settings["join"] == True:
@@ -1233,64 +1281,69 @@ def fakhriBot(op):
                        if type(query) == int:
                                 data = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/'+str(query)+'/ANDROID/sticker.png'
                                 path = fakhri.downloadFileURL(data)
+                                fakhri.sendImageWithURL(to,path)
                                 msg_dict1[msg.id] = {"text":str(ret_),"data":path,"from":msg._from,"createdTime":msg.createdTime}
             if op.type == 65:
-                print("[65] UNSEND MESSAGE")
-                try:
-                    at = op.param1
-                    msg_id = op.param2
-                    if msg_id in msg_dict:
-                        if msg_dict[msg_id]["from"]:
-                           if msg_dict[msg_id]["text"] == 'Gambarnya dibawah':
-                                Aditmadzs = fakhri.getContact(msg_dict[msg_id]["from"])
-                                zx = ""
-                                zxc = ""
-                                zx2 = []
-                                xpesan =  "「 Gambar Dihapus 」\n• Pengirim : "
-                                ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict[msg_id]["createdTime"])))
-                                ry = str(Aditmadzs.displayName)
-                                pesan = ''
-                                pesan2 = pesan+"@x \n"
-                                xlen = str(len(zxc)+len(xpesan))
-                                xlen2 = str(len(zxc)+len(pesan2)+len(xpesan)-1)
-                                zx = {'S':xlen, 'E':xlen2, 'M':Aditmadzs.mid}
-                                zx2.append(zx)
-                                zxc += pesan2
-                                text = xpesan + zxc + ret_ + ""
-                                if settings["unsendMessage"] == True:
-                                  fakhri.sendMessage(at, text, contentMetadata={'MENTION':str('{"MENTIONEES":'+json.dumps(zx2).replace(' ','')+'}')}, contentType=0)
-                                  fakhri.sendImage(at, msg_dict[msg_id]["data"])
-                           else:
-                                ginfo = fakhri.getGroup(at)
-                                Aditmadzs = fakhri.getContact(msg_dict[msg_id]["from"])
-                                ret_ =  "「 Pesan Dihapus 」\n"
-                                ret_ += "• Pengirim : {}".format(str(Aditmadzs.displayName))
-                                ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict[msg_id]["createdTime"])))
-                                ret_ += "\n• Pesannya : {}".format(str(msg_dict[msg_id]["text"]))
-                                if settings["unsendMessage"] == True:
-                                  fakhri.sendMessage(at, str(ret_))
-                        del msg_dict[msg_id]
-                except Exception as e:
-                    print(e)
+                if settings["unsendMessage"] == True:
+                    print("[65] UNSEND MESSAGE")
+                    try:
+                        at = op.param1
+                        msg_id = op.param2
+                        if msg_id in msg_dict:
+                            if msg_dict[msg_id]["from"]:
+                               if msg_dict[msg_id]["text"] == 'Gambarnya dibawah':
+                                    ginfo = fakhri.getGroup(at)
+                                    Aditmadzs = fakhri.getContact(msg_dict[msg_id]["from"])
+                                    zx = ""
+                                    zxc = ""
+                                    zx2 = []
+                                    xpesan =  "「 Gambar Dihapus 」\n• Pengirim : "
+                                    ret_ = "• Nama Grup : {}".format(str(ginfo.name))
+                                    ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict[msg_id]["createdTime"])))
+                                    ry = str(Aditmadzs.displayName)
+                                    pesan = ''
+                                    pesan2 = pesan+"@x \n"
+                                    xlen = str(len(zxc)+len(xpesan))
+                                    xlen2 = str(len(zxc)+len(pesan2)+len(xpesan)-1)
+                                    zx = {'S':xlen, 'E':xlen2, 'M':Aditmadzs.mid}
+                                    zx2.append(zx)
+                                    zxc += pesan2
+                                    text = xpesan + zxc + ret_ + ""
+                                    fakhri.sendMessage(at, text, contentMetadata={'MENTION':str('{"MENTIONEES":'+json.dumps(zx2).replace(' ','')+'}')}, contentType=0)
+                                    fakhri.sendImage(at, msg_dict[msg_id]["data"])
+                               else:
+                                    ginfo = fakhri.getGroup(at)
+                                    Aditmadzs = fakhri.getContact(msg_dict[msg_id]["from"])
+                                    ret_ =  "「 Pesan Dihapus 」\n"
+                                    ret_ += "• Pengirim : {}".format(str(Aditmadzs.displayName))
+                                    ret_ += "\n• Nama Grup : {}".format(str(ginfo.name))
+                                    ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict[msg_id]["createdTime"])))
+                                    ret_ += "\n• Pesannya : {}".format(str(msg_dict[msg_id]["text"]))
+                                    fakhri.sendMessage(at, str(ret_))
+                            del msg_dict[msg_id]
+                    except Exception as e:
+                        print(e)
 
             if op.type == 65:
-                print("[65] UNSEND MESSAGE")
-                try:
-                    at = op.param1
-                    msg_id = op.param2
-                    if msg_id in msg_dict1:
-                        if msg_dict1[msg_id]["from"]:
-                                Aditmadzs = fakhri.getContact(msg_dict1[msg_id]["from"])
-                                ret_ =  "「 Sticker Dihapus 」\n"
-                                ret_ += "• Pengirim : {}".format(str(Aditmadzs.displayName))
-                                ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict1[msg_id]["createdTime"])))
-                                ret_ += "{}".format(str(msg_dict1[msg_id]["text"]))
-                                if settings["unsendMessage"] == True:
-                                  fakhri.sendMessage(at, str(ret_))
-                                  fakhri.sendImage(at, msg_dict1[msg_id]["data"])
-                        del msg_dict1[msg_id]
-                except Exception as e:
-                    print(e)
+                if settings["unsendMessage"] == True:
+                    print("[65] UNSEND MESSAGE")
+                    try:
+                        at = op.param1
+                        msg_id = op.param2
+                        if msg_id in msg_dict1:
+                            if msg_dict1[msg_id]["from"]:
+                                    ginfo = fakhri.getGroup(at)
+                                    Aditmadzs = fakhri.getContact(msg_dict1[msg_id]["from"])
+                                    ret_ =  "「 Sticker Dihapus 」\n"
+                                    ret_ += "• Pengirim : {}".format(str(Aditmadzs.displayName))
+                                    ret_ += "\n• Nama Grup : {}".format(str(ginfo.name))
+                                    ret_ += "\n• Waktu Ngirim : {}".format(dt_to_str(cTime_to_datetime(msg_dict1[msg_id]["createdTime"])))
+                                    ret_ += "{}".format(str(msg_dict1[msg_id]["text"]))
+                                    fakhri.sendMessage(at, str(ret_))
+                                    fakhri.sendImage(at, msg_dict1[msg_id]["data"])
+                            del msg_dict1[msg_id]
+                    except Exception as e:
+                        print(e)
             if op.type == 55:
                 print ("[ 55 ] NOTIFIED READ MESSAGE")
                 if op.param1 in read["readPoint"]:
