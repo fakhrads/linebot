@@ -891,6 +891,14 @@ def fakhriBot(op):
                                           mentionees = mention['MENTIONEES']
                                           for mention in mentionees:
                                   	         fakhri.kickoutFromGroup(to,[mention['M']])
+                                elif "invite" in msg.text.lower():
+                                  if msg._from in admin:
+                                     if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                        names = re.findall(r'@(\w+)', msg.text)
+                                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                        mentionees = mention['MENTIONEES']
+                                        for mention in mentionees:
+                                           fakhri.inviteIntoGroup(to,[mention['M']])
                                 elif "pc " in msg.text.lower():
                                   if msg._from in admin:
                                       key = eval(msg.contentMetadata["MENTION"])
